@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Witaj na swoim koncie</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="user_input">Wpisz dane do przetworzenia:</label>
+        <input type="text" name="user_input" id="user_input" required>
+        <button type="submit">Wyślij</button>
+    </form>
+
+    {% if user_input %}
+        <p>Wprowadzone dane: {{ user_input }}</p>
+    {% endif %}
+
+    <p><a href="{% url 'logout' %}">Wyloguj się</a></p>  <!-- Link do wylogowania -->
+</body>
+</html>
