@@ -4,18 +4,19 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <h1>Witaj na swoim koncie</h1>
+    <h2>Witaj, {{ username }}!</h2>
+    <p>Twój adres e-mail: {{ email }}</p>
+
     <form method="POST">
         {% csrf_token %}
-        <label for="user_input">Wpisz dane do przetworzenia:</label>
+        <label for="user_input">Wpisz coś:</label>
         <input type="text" name="user_input" id="user_input" required>
         <button type="submit">Wyślij</button>
     </form>
 
-    {% if user_input %}
-        <p>Wprowadzone dane: {{ user_input }}</p>
-    {% endif %}
-
-    <p><a href="{% url 'logout' %}">Wyloguj się</a></p>  <!-- Link do wylogowania -->
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Wyloguj się</button>
+    </form>
 </body>
 </html>

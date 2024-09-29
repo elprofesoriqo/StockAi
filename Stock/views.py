@@ -1,4 +1,5 @@
 # myapp/views.py
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View
@@ -12,7 +13,7 @@ from .forms import RegisterForm
 from django.contrib.auth.views import LogoutView
 
 class CustomLogoutView(LogoutView):
-    next_page = 'home'  # Przekierowanie po wylogowaniu na stronę główną
+    next_page = reverse_lazy('')  # Użyj reverse_lazy, aby przekierować po wylogowaniu
 
 class HomeView(View):
     def get(self, request):
@@ -32,21 +33,43 @@ class RegisterView(FormView):
         login(self.request, user)
         return redirect(self.get_success_url())
 
-class LoginView(FormView):
-    template_name = 'registration/login.html'  # Bez prefixu, ponieważ jest w templates myapp
-    form_class = AuthenticationForm
-    success_url = reverse_lazy('dashboard')
+# myapp/views.py
+
+# myapp/views.py
+
+# myapp/views.py
+
+# myapp/views.py
+
+from django.shortcuts import redirect
+from django.contrib.auth.views import LoginView as BaseLoginView
+
+class LoginView(BaseLoginView):
+    template_name = 'login.html'
 
     def form_valid(self, form):
         user = form.get_user()
         login(self.request, user)
-        return redirect(self.get_success_url())
+        # Przekierowanie na /user/<username>/dashboard/
+        return redirect(f'/profile')  # Upewnij się, że tu jest właściwa ścieżka
 
+# myapp/views.py
+@login_required
+def ProfileView(request):
+    return render(request, 'profile.html', {'user': request.user})
+
+# myapp/views.py
+# myapp/views.py
 class DashboardView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request):
-        return render(request, 'dashboard.html')
+        user = request.user  # Pobierz zalogowanego użytkownika
+        context = {
+            'username': user.username,  # Nazwa użytkownika
+            'email': user.email,         # Adres email (jeśli chcesz)
+        }
+        return render(request, 'dashboard.html', context)
 
     def post(self, request):
         user_input = request.POST.get('user_input')

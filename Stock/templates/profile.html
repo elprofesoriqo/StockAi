@@ -1,0 +1,18 @@
+<!-- myapp/templates/profile.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profil użytkownika</title>
+</head>
+<body>
+    <h1>Profil użytkownika</h1>
+    <p>Witaj, {{ user.username }}!</p>
+    <p>Email: {{ user.email }}</p>
+<!-- dashboard.html lub inny szablon, w którym chcesz mieć przycisk wylogowania -->
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Wyloguj się</button>
+</form>
+    <a href="{% url 'dashboard' %}">Przejdź do dashboard</a>
+</body>
+</html>

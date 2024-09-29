@@ -5,7 +5,7 @@
 </head>
 <body>
     <h2>Logowanie</h2>
-    <form method="POST">
+    <form method="POST" action="{% url 'login' %}">  <!-- Usuń dodatkowy znak '>' -->
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Zaloguj</button>
